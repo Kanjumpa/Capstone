@@ -1,6 +1,8 @@
--- simple UART that transmits binary encoded in SW[7:0] when KEY0 is pressed
--- SW[7:0] is shown at LEDG[7:0]
+-- UART that transmits binary encoded in SW[7:0] when KEY0 is pressed
+-- baudrate: 9600
 --
+-- Based on the youtube video https://www.youtube.com/watch?v=fMmcSpgOtJ4
+-- 
 -- Author: Qianshu Lu
 -- Date: Oct. 12, 2016
 
