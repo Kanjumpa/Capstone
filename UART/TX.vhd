@@ -1,6 +1,8 @@
 -- TX module that sends DATA when START is 1
 -- BUSY: flag to show trasmission in progress
-
+--
+-- Author: Qianshu Lu
+-- Date: Oct 12, 2016
 
 library ieee;
 use ieee.std_logic_1164.all;
