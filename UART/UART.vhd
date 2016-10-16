@@ -1,8 +1,10 @@
--- UART that transmits binary encoded in SW[7:0] when KEY0 is pressed
--- baudrate: 9600
---
--- Based on the youtube video https://www.youtube.com/watch?v=fMmcSpgOtJ4
+-- UART that transmits binary encoded in SW[17:0] when KEY0 is pressed
+-- baudrate: 9600, 8 data bit, 1 stop bit
 -- 
+--
+-- Based on the youtube video https://www.youtube.com/watch?v=fMmcSpgOtJ4,
+-- modified to send multi-byte data as in QIE experiment 
+--
 -- Author: Qianshu Lu
 -- Date: Oct. 12, 2016
 
@@ -24,7 +26,7 @@ PORT(
 END UART;
 
 ARCHITECTURE MAIN OF UART IS
-SIGNAL TX_DATA: STD_LOGIC_VECTOR(7 downto 0);
+SIGNAL TX_DATA: STD_LOGIC_VECTOR(17 downto 0);
 SIGNAL TX_START: STD_LOGIC:='0';
 SIGNAL TX_BUSY: STD_LOGIC;
 
@@ -33,7 +35,7 @@ PORT(
 	CLK: 	IN STD_LOGIC;
 	START:		IN STD_LOGIC;
 	BUSY:			OUT STD_LOGIC;
-	DATA:			IN STD_LOGIC_VECTOR(7 downto 0);
+	DATA:			IN STD_LOGIC_VECTOR(17 downto 0);
 	TX_LINE:		OUT STD_LOGIC
 );
 END COMPONENT TX;
@@ -45,9 +47,9 @@ PROCESS(CLOCK_50)
 BEGIN
 IF(CLOCK_50'EVENT AND CLOCK_50='1')THEN
 	IF(KEY(0)='0' AND TX_BUSY='0')THEN
-		TX_DATA<=SW(7 downto 0);
+		TX_DATA<=SW(17 downto 0);
 		TX_START<='1';
-		LEDG<=TX_DATA;
+		LEDR<=TX_DATA;
 	ELSE
 		TX_START<='0';
 	END IF;
