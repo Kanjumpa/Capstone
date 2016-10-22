@@ -1,5 +1,5 @@
 TimeQuest Timing Analyzer report for UART
-Sat Oct 15 22:52:05 2016
+Mon Oct 17 17:00:49 2016
 Quartus II 64-Bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
 
 
@@ -1243,7 +1243,7 @@ No dedicated SERDES Receiver circuitry present in device or used in design
 Info: *******************************************************************
 Info: Running Quartus II 64-Bit TimeQuest Timing Analyzer
     Info: Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
-    Info: Processing started: Sat Oct 15 22:52:04 2016
+    Info: Processing started: Mon Oct 17 17:00:48 2016
 Info: Command: quartus_sta UART -c UART
 Info: qsta_default_script.tcl version: #1
 Warning (20028): Parallel compilation is not licensed and has been disabled
@@ -1292,7 +1292,7 @@ Info (332102): Design is not fully constrained for setup requirements
 Info (332102): Design is not fully constrained for hold requirements
 Info: Quartus II 64-Bit TimeQuest Timing Analyzer was successful. 0 errors, 4 warnings
     Info: Peak virtual memory: 417 megabytes
-    Info: Processing ended: Sat Oct 15 22:52:05 2016
+    Info: Processing ended: Mon Oct 17 17:00:49 2016
     Info: Elapsed time: 00:00:01
     Info: Total CPU time (on all processors): 00:00:01
 
