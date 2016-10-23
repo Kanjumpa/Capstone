@@ -60,3 +60,33 @@ while True:
         print("D_out binary: ", '{0:04b}'.format(D_out[4]),
               '{0:07b}'.format(D_out[3]), '{0:07b}'.format(D_out[2]),
               '{0:07b}'.format(D_out[1]), '{0:07b}'.format(D_out[0]))
+        print("Count_out binary (first 11 bytes): ", '{0:07b}'.format(Count_out[10]),
+              '{0:04b}'.format(Count_out[9]), '{0:07b}'.format(Count_out[8]),
+              '{0:07b}'.format(Count_out[7]), '{0:07b}'.format(Count_out[6]),
+              '{0:07b}'.format(Count_out[5]), '{0:04b}'.format(Count_out[4]),
+              '{0:07b}'.format(Count_out[3]), '{0:07b}'.format(Count_out[2]),
+              '{0:07b}'.format(Count_out[1]), '{0:07b}'.format(Count_out[0]))
+        print("Count_out binary (second 11 bytes): ", '{0:07b}'.format(Count_out[21]),
+              '{0:07b}'.format(Count_out[20]), '{0:04b}'.format(Count_out[19]),
+              '{0:07b}'.format(Count_out[18]), '{0:07b}'.format(Count_out[17]),
+              '{0:07b}'.format(Count_out[16]), '{0:07b}'.format(Count_out[15]),
+              '{0:04b}'.format(Count_out[14]), '{0:07b}'.format(Count_out[13]),
+              '{0:07b}'.format(Count_out[12]), '{0:07b}'.format(Count_out[11]))
+        print("Count_out binary (third 11 bytes): ", '{0:07b}'.format(Count_out[32]),
+              '{0:07b}'.format(Count_out[31]), '{0:07b}'.format(Count_out[30]),
+              '{0:04b}'.format(Count_out[29]), '{0:07b}'.format(Count_out[28]),
+              '{0:07b}'.format(Count_out[27]), '{0:07b}'.format(Count_out[26]),
+              '{0:07b}'.format(Count_out[25]), '{0:04b}'.format(Count_out[24]),
+              '{0:03b}'.format(Count_out[23]), '{0:07b}'.format(Count_out[22]))
+        print("Count_out binary (fourth 11 bytes): ", '{0:07b}'.format(Count_out[43]),
+              '{0:07b}'.format(Count_out[42]), '{0:07b}'.format(Count_out[41]),
+              '{0:07b}'.format(Count_out[40]), '{0:04b}'.format(Count_out[39]),
+              '{0:07b}'.format(Count_out[38]), '{0:07b}'.format(Count_out[37]),
+              '{0:07b}'.format(Count_out[36]), '{0:07b}'.format(Count_out[35]),
+              '{0:04b}'.format(Count_out[34]), '{0:07b}'.format(Count_out[33]))
+        print("Count_out binary (fifth 11 bytes): ", '{0:04b}'.format(Count_out[54]),
+              '{0:04b}'.format(Count_out[53]), '{0:07b}'.format(Count_out[52]),
+              '{0:07b}'.format(Count_out[51]), '{0:07b}'.format(Count_out[50]),
+              '{0:04b}'.format(Count_out[49]), '{0:07b}'.format(Count_out[48]),
+              '{0:07b}'.format(Count_out[47]), '{0:07b}'.format(Count_out[46]),
+              '{0:07b}'.format(Count_out[45]), '{0:04b}'.format(Count_out[44]))
