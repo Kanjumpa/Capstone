@@ -44,39 +44,49 @@ A_print = np.zeros(10)
 counter = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 
 
-ser = serial.Serial('/dev/tty.wchusbserial1410')
-ser.baudrate = 19200
-print('check port is open: ', ser.is_open)
-print('ser: ', ser)
+#ser = serial.Serial('/dev/tty.wchusbserial1410')
+#ser.baudrate = 19200
+#print('check port is open: ', ser.is_open)
+#print('ser: ', ser)
 
+record = np.array([])
+record_int = np.array([])
 while True:
-    start_byte = ser.read(1)
-    start_int = int(start_byte.hex(), 16)
+    #start_byte = ser.read(1)
+    #start_int = int(start_byte.hex(), 16)
     # look for the high byte, which signals start of data stream
-    if(start_int != 255):
-        continue
-    else:
+    #if(start_int != 255):
+    #    continue
+    #else:
         # read data bytes
-        A_out = ser.read(5)
-        B_out = ser.read(5)
-        C_out = ser.read(5)
-        D_out = ser.read(5)
-        Count_out = ser.read(55)
-        
+        #A_out = ser.read(5)
+        #B_out = ser.read(5)
+        #C_out = ser.read(5)
+        #D_out = ser.read(5)
+        #Count_out = ser.read(55)
+        A_out = np.random.randint(10,size=5)
+        record = np.concatenate((record, A_out))
         A_int = 0
-
+        # move data to print if counter is 10 
+        for j in range(5):
+            A_int += A_out[j]#*128**j
+        record_int = np.append(record_int, A_int)
         for i in range(10):
             if(counter[i] < 10):
-                for j in range(5):
-                    A_int += A_out[j]*128**j
                 A_data[i] += A_int
-                counter[i] += 1
+                #print("data[i]: ", A_data[i])
             elif(counter[i] == 10):
                 A_print[i] = A_data[i]
-                A_data[i] = 0
+                #print("print[i]: ", A_print[i])
+                A_data[i] = A_int
                 counter[i] = 0
-                if(i==9):
+                if(i==0):
                     print(A_print)
+                    print("record: ", record)
+                    print("record int: ", record_int)
                     A_print = np.zeros(10)
                     print("")
+        # update counter
+        for i in range(10):
+           counter[i] += 1 
         
