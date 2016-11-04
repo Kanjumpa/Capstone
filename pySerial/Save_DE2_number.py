@@ -53,7 +53,6 @@ command = input("start?")
 while True:
     start_byte = ser.read(1)
     start_int = int(start_byte.hex(), 16)
-    start_int = 255
     # look for the high byte, which signals start of data stream
     if(start_int != 255):
         continue
