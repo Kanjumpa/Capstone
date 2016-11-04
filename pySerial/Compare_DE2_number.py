@@ -1,10 +1,9 @@
 ##########
 #
-#   Python script to read data from QIE DE2 board and save to txt
-#   (Count_out is not printed since it's too large: 352 bits)
+#   Python script to read data from QIE DE2 board and print
+#   for exact comparison with LabVIEW interface of ABCD
 
-#   Can specify different "update period", i.e. how many UART
-#   transmission (0.1 second each) per data point.
+#   update period = 1s (= 10 UART transmission)
 
 #   Data format and ordering:
 #   A_out, B_out, C_out, D_out: each 32 bits, sent over 5 bytes,
@@ -22,12 +21,12 @@
 #   To work in Python2, needs to parse string manually to convert to int
 
 #   Author: Qianshu Lu
-#   Date: Oct. 27, 2016
+#   Date: Nov. 3, 2016
 
 import serial
 import time
 
-update_num = 20; # UART in each datapoint
+update_num = 10; # UART in each datapoint
 termination_num = 300 # number of data points
 counter = 1; # counter for number of UART
 
