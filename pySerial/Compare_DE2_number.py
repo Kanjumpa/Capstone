@@ -23,7 +23,7 @@
 #   To work in Python2, needs to parse string manually to convert to int
 
 #   Author: Qianshu Lu
-#   Date: Nov. 3, 2016
+#   Last Update: Nov. 10, 2016
 
 import serial
 import time
