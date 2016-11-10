@@ -41,51 +41,63 @@ A_data = np.zeros(10)
 A_print = np.zeros(10)
 
 # counter for each truncation
-counter = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+counter = [9,8,7,6,5,4,3,2,1,0]
 
 
-#ser = serial.Serial('/dev/tty.wchusbserial1410')
-#ser.baudrate = 19200
-#print('check port is open: ', ser.is_open)
-#print('ser: ', ser)
+ser = serial.Serial('/dev/tty.wchusbserial1410')
+ser.baudrate = 19200
+print('check port is open: ', ser.is_open)
+print('ser: ', ser)
 
 record = np.array([])
 record_int = np.array([])
+print_counter = 0
+counter_update_flag = 1
 while True:
-    #start_byte = ser.read(1)
-    #start_int = int(start_byte.hex(), 16)
+    start_byte = ser.read(1)
+    start_int = int(start_byte.hex(), 16)
     # look for the high byte, which signals start of data stream
-    #if(start_int != 255):
-    #    continue
-    #else:
+    if(start_int != 255):
+        continue
+    else:
         # read data bytes
-        #A_out = ser.read(5)
-        #B_out = ser.read(5)
-        #C_out = ser.read(5)
-        #D_out = ser.read(5)
-        #Count_out = ser.read(55)
-        A_out = np.random.randint(10,size=5)
-        record = np.concatenate((record, A_out))
+        A_out = ser.read(5)
+        B_out = ser.read(5)
+        C_out = ser.read(5)
+        D_out = ser.read(5)
+        Count_out = ser.read(55)
+        #if(flag == 1):
+        #    flag = 0
+        #    continue
         A_int = 0
-        # move data to print if counter is 10 
         for j in range(5):
-            A_int += A_out[j]#*128**j
-        record_int = np.append(record_int, A_int)
+            A_int += D_out[j]*128**j
+        # move data to print if counter is 10 
         for i in range(10):
+            # add int to data array if counter not 10
             if(counter[i] < 10):
                 A_data[i] += A_int
-                #print("data[i]: ", A_data[i])
+                #print("data[i]: ", A_data[i])  
+            # move data to print array if counter is 10
+            # and clear data
             elif(counter[i] == 10):
                 A_print[i] = A_data[i]
-                #print("print[i]: ", A_print[i])
-                A_data[i] = A_int
-                counter[i] = 0
-                if(i==0):
-                    print(A_print)
-                    print("record: ", record)
-                    print("record int: ", record_int)
-                    A_print = np.zeros(10)
-                    print("")
+                # LabVIEW skips one data point when printing
+                A_data[i] = 0
+                counter[i] = -1
+                # when 0th counter is 10, print array should be filled,
+                # print and clear print array
+                if(i==9):
+                    #A_print = np.roll(A_print, -1*print_counter)
+                    #if(counter_update_flag and print_counter%10 == 0):
+                    #    counter_update_flag = 0
+                    #    print(A_print)
+                    #    A_print = np.zeros(10)
+                    #else:
+                        print(A_print)
+                        print_counter += 1
+                        counter_update_flag = 1
+                        A_print = np.zeros(10)
         # update counter
         for i in range(10):
            counter[i] += 1 
