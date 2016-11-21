@@ -38,7 +38,7 @@ class QIE_Gui(QtGui.QWidget):
         
         # connect buttons to functions
         #self.quit_btn.clicked.connect(self.close)
-        QtCore.QObject.connect(self.quit_btn, QtCore.SIGNAL("clicked()"), self.close)
+        QtCore.QObject.connect(self.quit_btn, QtCore.SIGNAL("clicked()"), self.on_quit)
         QtCore.QObject.connect(self.start_btn, QtCore.SIGNAL("clicked()"), self.on_start)
         QtCore.QObject.connect(self.stop_btn, QtCore.SIGNAL("clicked()"), self.on_stop)
         QtCore.QObject.connect(self.update_spin, QtCore.SIGNAL("valueChanged(double)"), self.on_spinbox_change)
@@ -165,6 +165,14 @@ class QIE_Gui(QtGui.QWidget):
             self.serial_monitor.join(0.01)
             self.serial_monitor = None
         self.timer.stop()
+
+    def on_quit(self):
+        """ stop and clear the serial thread if not yet done"""
+
+        if self.serial_monitor is not None:
+            self.on_stop()
+        
+        self.close()
 
     def on_spinbox_change(self):
         """ when the spinbox is changed, change the update period timer """
