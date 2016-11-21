@@ -81,7 +81,7 @@ class SerialThread(threading.Thread):
         # Restart the clock
         #time.clock()
         
-        while True:
+        while self.alive.isSet():
             # look for a high byte which signals start of data stream
             start_byte = self.serial_port.read(1)
             start_int = int(start_byte.hex(), 16)
@@ -103,7 +103,8 @@ class SerialThread(threading.Thread):
                     for j in range(5):
                         data_int[i] += data_out[i*5+j]*128**j
                 self.data_q.put(data_int)
-                
+        
+        print("Thread:run ended") 
         # clean up
         if self.serial_port:
             self.serial_port.close()

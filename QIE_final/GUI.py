@@ -161,9 +161,9 @@ class QIE_Gui(QtGui.QWidget):
         """ stop and clear the serial thread """
 
         if self.serial_monitor is not None:
+            self.serial_monitor.alive.clear()
             self.serial_monitor.join(0.01)
             self.serial_monitor = None
-        
         self.timer.stop()
 
     def on_spinbox_change(self):
@@ -183,7 +183,7 @@ def main():
     app = QtGui.QApplication(sys.argv)
     gui = QIE_Gui()
     gui.show()
-    sys.exit(app.exec_())
+    app.exec_()
     
 if __name__ == '__main__':
     main()
