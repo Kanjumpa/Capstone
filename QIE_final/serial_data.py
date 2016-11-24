@@ -1,6 +1,6 @@
 import queue
 import threading
-import time
+import datetime
 
 import numpy as np
 import serial
@@ -9,20 +9,11 @@ class SerialThread(threading.Thread):
     """ A thread for reading a serial port. The serial port
         is opened when the thread is started.
     
-        data_A_q:
-            Queue for received A_count data. Items in the queue
-            are (A_count, timestamp) pairs, where A_count is an
-            unsigned int, and timestamp is the time elapsed from
-            the start of the thread in seconds.
-
-        data_B_q:
-            Queue for received B_count data. Same format as data_A_q
-
-        data_C_q:
-            Queue for received C_count data. Same format as data_A_q
-
-        data_D_q:
-            Queue for received D_count data. Same format as data_A_q
+        data_q:
+            Queue for received data. Items in the queue
+            are (timestamp, data) pairs, where timestamp is the current time
+            and date in iso format, data is a size(15) numpy array for 
+            all single photon counts and conincidence counts
 
         error_q:
             Queue for error messages, including error when serial port
@@ -78,9 +69,6 @@ class SerialThread(threading.Thread):
             #self.error_q.put('serial exception')
             #return
         
-        # Restart the clock
-        #time.clock()
-        
         while self.alive.isSet():
             # look for a high byte which signals start of data stream
             start_byte = self.serial_port.read(1)
@@ -94,15 +82,16 @@ class SerialThread(threading.Thread):
                 data_out = self.serial_port.read(75)
                 
                 #record timestamp
-                timestamp = time.clock()
+                time_stamp = datetime.datetime.now().time()
+                time_string = timestamp.isoformat()
                 
                 # initialize int to store data
-                data_int = np.zeros(4)
+                data_int = np.zeros(15)
                 
-                for i in range(4):
+                for i in range(15):
                     for j in range(5):
                         data_int[i] += data_out[i*5+j]*128**j
-                self.data_q.put(data_int)
+                self.data_q.put((time_string, data_int))
         
         print("Thread:run ended") 
         # clean up
