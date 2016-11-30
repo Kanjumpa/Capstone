@@ -26,7 +26,9 @@ class QIE_Gui(GuiSkeleton):
         self.data_q = None
         self.error_q = None
         self.timer = QtCore.QTimer()
+        self.record_timer = QtCore.QTimer()
         self.serial_monitor = None
+        self.record_active = False
         self.portname = '/dev/tty.wchusbserial1410'
         
         # Connect actions on GUI to custon methods.
@@ -36,6 +38,7 @@ class QIE_Gui(GuiSkeleton):
         QtCore.QObject.connect(self.start_button, QtCore.SIGNAL("clicked()"), self.on_start)
         QtCore.QObject.connect(self.stop_button, QtCore.SIGNAL("clicked()"), self.on_stop)
         QtCore.QObject.connect(self.update_spin, QtCore.SIGNAL("valueChanged(double)"), self.on_update_spinbox_change)
+        QtCore.QObject.connect(self.record_button, QtCore.SIGNAL("clicked()"), self.on_record)
         
     def on_start(self):
         """ Start the data collection serial thread and update timer """
@@ -167,6 +170,11 @@ class QIE_Gui(GuiSkeleton):
             self.ABD_corrected_display.setText("{:.0f}".format(num_data[12]-stat_ABD))
             self.ACD_corrected_display.setText("{:.0f}".format(num_data[13]-stat_ACD))
             self.ABCD_corrected_display.setText("{:.0f}".format(num_data[14]-stat_ABCD))
+
+        # Check if data recording is active and store the data from this tick if so
+        if self.record_active:
+
+            self.saved_data.put(time, num_data)
             
 
     def on_stop(self):
@@ -197,6 +205,45 @@ class QIE_Gui(GuiSkeleton):
        
         if self.timer.isActive():
             self.timer.setInterval(self.update_period*1000.0)
+
+    def on_record(self):
+        """ record data for the amount of time specified in the input box
+            OR if recording has already started, stop and export the data """
+
+        # Check if recording is currently active, if it is then stop
+        if self.record_active:
+
+            # Stop the timer and force it to send a timeout signal
+            self.record_timer.stop()
+            self.record_timer.start(1) # Creates a new 1 ms timer to timeout immediately
+            
+        else: # Recording is not currently active
+
+            # Get amount of recording time from spinbox
+            self.record_time = self.record_spin.value()
+
+            # Set active flag and change button label
+            self.record_active = True
+            self.record_button.setText('Stop Recording')
+
+            # Create structure to save data in
+            #num_data_points = self.record_time / (self.update_period*1000)        
+            #self.saved_data = np.zeros(num_ticks)
+
+            # Connect timer trigger to on_timer method
+            self.connect(self.record_timer, QtCore.SIGNAL('timeout()'), self.on_record_timer)
+            # Start the timer
+            self.record_timer.setSingleShot(True)
+            self.record_timer.start(self.record_time*1000) # Set the timer in [ms]
+
+    def on_record_timer(self):
+        """ Executed when the timer keeping track of data recording finishes """
+
+        # Deactivate the recording flag
+        self.record_active = False
+        # Change the button text to indicate that recording has finished
+        self.record_button.setText('Start Recording')
+        
         
 def main():
     app = QtGui.QApplication(sys.argv)
