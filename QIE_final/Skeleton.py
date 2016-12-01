@@ -319,6 +319,7 @@ class GuiSkeleton(QtGui.QWidget):
         self.stop_button.setFixedWidth(100)
         
         self.record_button = QtGui.QPushButton('Start Recording', self)
+        self.record_button.setCheckable(True)
         self.record_button.setFixedWidth(140)
         
         # Create spinboxes for update period, coincidence window and data recording time
@@ -331,7 +332,8 @@ class GuiSkeleton(QtGui.QWidget):
         
         self.coincidence_spin = QtGui.QDoubleSpinBox(self)
         self.coincidence_spin.setFixedWidth(100)
-        self.coincidence_spin.setSingleStep(0.1)
+        self.coincidence_spin.setSingleStep(0.5)
+        self.coincidence_spin.setMinimum(1.0)
         self.coincidence_spin.setDecimals(1)
         self.coincidence_spin_label = QtGui.QLabel('Conincidence Window (ns)')
     

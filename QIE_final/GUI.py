@@ -6,6 +6,8 @@ import sys
 import serial_data
 import queue
 import numpy as np
+import datetime
+import csv
 
 
 from utils import get_item_from_queue
@@ -65,11 +67,15 @@ class QIE_Gui(GuiSkeleton):
         # See if any error occured when opening the serial port
         serial_error = get_item_from_queue(self.error_q)
         if serial_error is not None:
-            QtGui.QMessageBox.critical(self, 'SerialThread error', serial_error)
+            QtGui.QMessageBox.critical(self, 'SerialThread error', 
+                    'Error when connecting to DE2; \nPlease turn on DE2 before collecting data.')
             self.serial_monitor = None
-       
+            return
+        
         # Set active flag
         self.serial_active = True
+        # Get coincidence time window
+        self.time_window = self.coincidence_spin.value()
         # Get update period from spinbox (default = 0.1)
         self.update_period = self.update_spin.value()
         # Connect timer trigger to on_timer method
@@ -91,9 +97,6 @@ class QIE_Gui(GuiSkeleton):
         # Each qdata is a pair (time, num_data),
         # where num_data is a size(15) array containing all photon counts
         qdata = get_item_from_queue(self.data_q)
-        if qdata is None:
-            print("qdata is none")
-            return
         time = qdata[0]
         num_data = qdata[1]
         for i in range(update_num-1):
@@ -103,19 +106,18 @@ class QIE_Gui(GuiSkeleton):
         if qdata is not None:
             # Calculate statistical corrections.
             # Retrieve coincidence timewindow
-            time_window = self.coincidence_spin.value()
             
             raw_A = num_data[0]
             raw_B = num_data[1]
             raw_C = num_data[2]
             raw_D = num_data[3]
         
-            stat_AB = 2*raw_A*raw_B*time_window*10**(-9)/self.update_period
-            stat_AC = 2*raw_A*raw_C*time_window*10**(-9)/self.update_period
-            stat_AD = 2*raw_A*raw_D*time_window*10**(-9)/self.update_period
-            stat_BC = 2*raw_B*raw_C*time_window*10**(-9)/self.update_period
-            stat_BD = 2*raw_B*raw_D*time_window*10**(-9)/self.update_period
-            stat_CD = 2*raw_D*raw_D*time_window*10**(-9)/self.update_period
+            stat_AB = 2*raw_A*raw_B*self.time_window*10**(-9)/self.update_period
+            stat_AC = 2*raw_A*raw_C*self.time_window*10**(-9)/self.update_period
+            stat_AD = 2*raw_A*raw_D*self.time_window*10**(-9)/self.update_period
+            stat_BC = 2*raw_B*raw_C*self.time_window*10**(-9)/self.update_period
+            stat_BD = 2*raw_B*raw_D*self.time_window*10**(-9)/self.update_period
+            stat_CD = 2*raw_D*raw_D*self.time_window*10**(-9)/self.update_period
             stat_ABC = stat_AB*raw_C
             stat_BCD = stat_BC*raw_D
             stat_ABD = stat_AB*raw_D
@@ -150,18 +152,6 @@ class QIE_Gui(GuiSkeleton):
             self.ACD_stat_display.setText("{:.2E}".format(stat_ACD))
             self.ABCD_stat_display.setText("{:.2E}".format(stat_ABCD))
             
-            self.AB_stat_display.setText("{:.2E}".format(stat_AB))
-            self.AC_stat_display.setText("{:.2E}".format(stat_AC))
-            self.AD_stat_display.setText("{:.2E}".format(stat_AD))
-            self.BC_stat_display.setText("{:.2E}".format(stat_BC))
-            self.BD_stat_display.setText("{:.2E}".format(stat_BD))
-            self.CD_stat_display.setText("{:.2E}".format(stat_CD))
-            self.ABC_stat_display.setText("{:.2E}".format(stat_ABC))
-            self.BCD_stat_display.setText("{:.2E}".format(stat_BCD))
-            self.ABD_stat_display.setText("{:.2E}".format(stat_ABD))
-            self.ACD_stat_display.setText("{:.2E}".format(stat_ACD))
-            self.ABCD_stat_display.setText("{:.2E}".format(stat_ABCD))
-            
             self.AB_corrected_display.setText("{:.2E}".format(num_data[4]-stat_AB))
             self.AC_corrected_display.setText("{:.2E}".format(num_data[5]-stat_AC))
             self.AD_corrected_display.setText("{:.2E}".format(num_data[6]-stat_AD))
@@ -176,8 +166,21 @@ class QIE_Gui(GuiSkeleton):
             
         # Check if data recording is active and store the data from this tick if so
         if self.record_active:
-
-            self.saved_data.put(time, num_data)
+            # put data into single iterable (numpy array)
+            # put in timestamp
+            row_to_write = np.array([time])
+            # add A,B,C,D and raw coincidence counts
+            row_to_write = np.append(row_to_write, num_data)
+            # add stat correction to conincidence counts
+            row_to_write = np.append(row_to_write, np.array([stat_AB,stat_AC,stat_AD,stat_BC,
+                    stat_BD, stat_CD, stat_ABC, stat_BCD, stat_ABD, stat_ACD, stat_ABCD]))
+            # add corrected coincidence counts
+            row_to_write = np.append(row_to_write, np.array([num_data[4]-stat_AB,num_data[5]-stat_AC,   
+                    num_data[6]-stat_AD,num_data[7]-stat_BC, num_data[8]-stat_BD, num_data[9]-stat_CD, 
+                    num_data[10]-stat_ABC, num_data[11]-stat_BCD, num_data[12]-stat_ABD, num_data[13]-stat_ACD,
+                    num_data[15]-stat_ABCD]))
+            self.csv_writer.write(row_to_write)
+            self.record_time_remained.setText('Time remaining: {} (s)'.format(self.record_time-1))
 
     def on_stop(self):
         """ stop and clear the serial thread """
@@ -212,39 +215,57 @@ class QIE_Gui(GuiSkeleton):
         """ record data for the amount of time specified in the input box
             OR if recording has already started, stop and export the data """
 
+        # Check if data collection is active
+        #if self.serial_monitor is None:
+            #self.on_start()
+
         # Check if recording is currently active, if it is then stop
         if self.record_active:
-
             # Stop the timer and force it to send a timeout signal
             self.record_timer.stop()
             self.record_timer.start(1) # Creates a new 1 ms timer to timeout immediately
+            # Set label back
+            self.record_button.setText('Start Recording')
             
         else: # Recording is not currently active
-
             # Get amount of recording time from spinbox
             self.record_time = self.record_spin.value()
 
             # Set active flag and change button label
             self.record_active = True
             self.record_button.setText('Stop Recording')
-
-            # Create structure to save data in
-            #num_data_points = self.record_time / (self.update_period*1000)        
-            #self.saved_data = np.zeros(num_ticks)
+            self.record_time_remained = QtGui.QLabel('Time remaining: {} (s)'.format(self.record_time))
+            self.settings_grid.addWidget(self.record_time_remained, 5,1, QtCore.Qt.AlignCenter)
 
             # Connect timer trigger to on_timer method
             self.connect(self.record_timer, QtCore.SIGNAL('timeout()'), self.on_record_timer)
             # Start the timer
             self.record_timer.setSingleShot(True)
             self.record_timer.start(self.record_time*1000) # Set the timer in [ms]
-
+            
+            # Create csv file to save data in 
+            self.path = './'
+            self.output_file = open(self.path+datetime.datetime.now().strftime("%Y%m%d_%H%M%S")+'.csv', 'w', newline='')
+            fieldnames = ['time','A','B','C','D','raw AB','raw AC','raw AD','raw BC','raw BD',
+                    'raw CD','raw ABC','raw BCD','raw ACD','raw ABD','raw ABCD',
+                    'stat correction AB','stat correction AC', 'stat correction AD','stat correction BC',
+                    'stat correction BD','stat correction CD','stat correction ABC','stat correction BCD',
+                    'stat correction ACD','stat correction ABD','stat correction ABCD',
+                    'corrected AB','corrected AC', 'corrected AD','corrected BC',
+                    'corrected BD','corrected CD','corrected ABC','corrected BCD',
+                    'corrected ACD','corrected ABD','corrected ABCD']
+            self.csv_writer = csv.writer(self.output_file)
+            self.csv_writer.writerow(fieldnames)
+        
     def on_record_timer(self):
         """ Executed when the timer keeping track of data recording finishes """
 
         # Deactivate the recording flag
         self.record_active = False
         # Change the button text to indicate that recording has finished
+        self.record_button.setChecked(False)
         self.record_button.setText('Start Recording')
+        self.record_time_remained.setText('')
         
         
 def main():

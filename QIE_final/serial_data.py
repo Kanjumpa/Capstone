@@ -60,14 +60,15 @@ class SerialThread(threading.Thread):
             # if there's a port already open, close it
         if self.serial_port:
             self.serial_port.close()
-        self.serial_port = serial.Serial('/dev/tty.wchusbserial1410')
-        self.serial_port.baudrate = 19200
-
+        
         # if any problem occur when opening the port,
-        # save error message to error_q, exit
-        #except serial.SerialException as e:
-            #self.error_q.put('serial exception')
-            #return
+        # save error message to error_q, exit  
+        try:
+            self.serial_port = serial.Serial('/dev/tty.wchusbserial1410')
+            self.serial_port.baudrate = 19200
+        except serial.SerialException as e:
+            self.error_q.put(e)
+            return
         
         while self.alive.isSet():
             # look for a high byte which signals start of data stream
@@ -82,8 +83,7 @@ class SerialThread(threading.Thread):
                 data_out = self.serial_port.read(75)
                 
                 #record timestamp
-                time_stamp = datetime.datetime.now().time()
-                time_string = time_stamp.isoformat()
+                time_string = datetime.datetime.now().strftime("%H%M%S")
                 
                 # initialize int to store data
                 data_int = np.zeros(75)
