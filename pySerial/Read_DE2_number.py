@@ -43,10 +43,10 @@ while True:
         D_out = ser.read(5)
         Count_out = ser.read(55)
 
-        command = input()
+        #command = input()
         # print("command is: ", command)
-        if(command == '0'):
-            exit()
+        #if(command == '0'):
+        #    exit()
         # for 5-byte data, each byte has 7 bits, except 4 for the last
         # printing order is opposite to reading order
         # (DE2 sends LSB first)
@@ -61,6 +61,6 @@ while True:
             C_int += C_out[i]*128**i
             D_int += D_out[i]*128**i
         print("A_out int: ", A_int)
-        print("B_out int: ", B_int)
-        print("C_out int: ", C_int)
-        print("D_out int: ", D_int)
+        #print("B_out int: ", B_int)
+        #print("C_out int: ", C_int)
+        #print("D_out int: ", D_int)
