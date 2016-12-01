@@ -91,11 +91,14 @@ class QIE_Gui(GuiSkeleton):
         # Each qdata is a pair (time, num_data),
         # where num_data is a size(15) array containing all photon counts
         qdata = get_item_from_queue(self.data_q)
+        if qdata is None:
+            print("qdata is none")
+            return
         time = qdata[0]
         num_data = qdata[1]
         for i in range(update_num-1):
             qdata = get_item_from_queue(self.data_q)
-            num_data += data[1]
+            num_data += qdata[1]
         
         if qdata is not None:
             # Calculate statistical corrections.
@@ -107,12 +110,12 @@ class QIE_Gui(GuiSkeleton):
             raw_C = num_data[2]
             raw_D = num_data[3]
         
-            stat_AB = 2*raw_A*raw_B*time_window*10**(-9)/update_period
-            stat_AC = 2*raw_A*raw_C*time_window*10**(-9)/update_period
-            stat_AD = 2*raw_A*raw_D*time_window*10**(-9)/update_period
-            stat_BC = 2*raw_B*raw_C*time_window*10**(-9)/update_period
-            stat_BD = 2*raw_B*raw_D*time_window*10**(-9)/update_period
-            stat_CD = 2*raw_D*raw_D*time_window*10**(-9)/update_period
+            stat_AB = 2*raw_A*raw_B*time_window*10**(-9)/self.update_period
+            stat_AC = 2*raw_A*raw_C*time_window*10**(-9)/self.update_period
+            stat_AD = 2*raw_A*raw_D*time_window*10**(-9)/self.update_period
+            stat_BC = 2*raw_B*raw_C*time_window*10**(-9)/self.update_period
+            stat_BD = 2*raw_B*raw_D*time_window*10**(-9)/self.update_period
+            stat_CD = 2*raw_D*raw_D*time_window*10**(-9)/self.update_period
             stat_ABC = stat_AB*raw_C
             stat_BCD = stat_BC*raw_D
             stat_ABD = stat_AB*raw_D
@@ -135,47 +138,46 @@ class QIE_Gui(GuiSkeleton):
             self.ACD_raw_display.setText("{:.0f}".format(num_data[13]))
             self.ABCD_raw_display.setText("{:.0f}".format(num_data[14]))
             
-            self.AB_stat_display.setText("{:.0f}".format(stat_AB))
-            self.AC_stat_display.setText("{:.0f}".format(stat_AC))
-            self.AD_stat_display.setText("{:.0f}".format(stat_AD))
-            self.BC_stat_display.setText("{:.0f}".format(stat_BC))
-            self.BD_stat_display.setText("{:.0f}".format(stat_BD))
-            self.CD_stat_display.setText("{:.0f}".format(stat_CD))
-            self.ABC_stat_display.setText("{:.0f}".format(stat_ABC))
-            self.BCD_stat_display.setText("{:.0f}".format(stat_BCD))
-            self.ABD_stat_display.setText("{:.0f}".format(stat_ABD))
-            self.ACD_stat_display.setText("{:.0f}".format(stat_ACD))
-            self.ABCD_stat_display.setText("{:.0f}".format(stat_ABCD))
+            self.AB_stat_display.setText("{:.2E}".format(stat_AB))
+            self.AC_stat_display.setText("{:.2E}".format(stat_AC))
+            self.AD_stat_display.setText("{:.2E}".format(stat_AD))
+            self.BC_stat_display.setText("{:.2E}".format(stat_BC))
+            self.BD_stat_display.setText("{:.2E}".format(stat_BD))
+            self.CD_stat_display.setText("{:.2E}".format(stat_CD))
+            self.ABC_stat_display.setText("{:.2E}".format(stat_ABC))
+            self.BCD_stat_display.setText("{:.2E}".format(stat_BCD))
+            self.ABD_stat_display.setText("{:.2E}".format(stat_ABD))
+            self.ACD_stat_display.setText("{:.2E}".format(stat_ACD))
+            self.ABCD_stat_display.setText("{:.2E}".format(stat_ABCD))
             
-            self.AB_stat_display.setText("{:.0f}".format(stat_AB))
-            self.AC_stat_display.setText("{:.0f}".format(stat_AC))
-            self.AD_stat_display.setText("{:.0f}".format(stat_AD))
-            self.BC_stat_display.setText("{:.0f}".format(stat_BC))
-            self.BD_stat_display.setText("{:.0f}".format(stat_BD))
-            self.CD_stat_display.setText("{:.0f}".format(stat_CD))
-            self.ABC_stat_display.setText("{:.0f}".format(stat_ABC))
-            self.BCD_stat_display.setText("{:.0f}".format(stat_BCD))
-            self.ABD_stat_display.setText("{:.0f}".format(stat_ABD))
-            self.ACD_stat_display.setText("{:.0f}".format(stat_ACD))
-            self.ABCD_stat_display.setText("{:.0f}".format(stat_ABCD))
+            self.AB_stat_display.setText("{:.2E}".format(stat_AB))
+            self.AC_stat_display.setText("{:.2E}".format(stat_AC))
+            self.AD_stat_display.setText("{:.2E}".format(stat_AD))
+            self.BC_stat_display.setText("{:.2E}".format(stat_BC))
+            self.BD_stat_display.setText("{:.2E}".format(stat_BD))
+            self.CD_stat_display.setText("{:.2E}".format(stat_CD))
+            self.ABC_stat_display.setText("{:.2E}".format(stat_ABC))
+            self.BCD_stat_display.setText("{:.2E}".format(stat_BCD))
+            self.ABD_stat_display.setText("{:.2E}".format(stat_ABD))
+            self.ACD_stat_display.setText("{:.2E}".format(stat_ACD))
+            self.ABCD_stat_display.setText("{:.2E}".format(stat_ABCD))
             
-            self.AB_corrected_display.setText("{:.0f}".format(num_data[4]-stat_AB))
-            self.AC_corrected_display.setText("{:.0f}".format(num_data[5]-stat_AC))
-            self.AD_corrected_display.setText("{:.0f}".format(num_data[6]-stat_AD))
-            self.BC_corrected_display.setText("{:.0f}".format(num_data[7]-stat_BC))
-            self.BD_corrected_display.setText("{:.0f}".format(num_data[8]-stat_BD))
-            self.CD_corrected_display.setText("{:.0f}".format(num_data[9]-stat_CD))
-            self.ABC_corrected_display.setText("{:.0f}".format(num_data[10]-stat_ABC))
-            self.BCD_corrected_display.setText("{:.0f}".format(num_data[11]-stat_BCD))
-            self.ABD_corrected_display.setText("{:.0f}".format(num_data[12]-stat_ABD))
-            self.ACD_corrected_display.setText("{:.0f}".format(num_data[13]-stat_ACD))
-            self.ABCD_corrected_display.setText("{:.0f}".format(num_data[14]-stat_ABCD))
-
+            self.AB_corrected_display.setText("{:.2E}".format(num_data[4]-stat_AB))
+            self.AC_corrected_display.setText("{:.2E}".format(num_data[5]-stat_AC))
+            self.AD_corrected_display.setText("{:.2E}".format(num_data[6]-stat_AD))
+            self.BC_corrected_display.setText("{:.2E}".format(num_data[7]-stat_BC))
+            self.BD_corrected_display.setText("{:.2E}".format(num_data[8]-stat_BD))
+            self.CD_corrected_display.setText("{:.2E}".format(num_data[9]-stat_CD))
+            self.ABC_corrected_display.setText("{:.2E}".format(num_data[10]-stat_ABC))
+            self.BCD_corrected_display.setText("{:.2E}".format(num_data[11]-stat_BCD))
+            self.ABD_corrected_display.setText("{:.2E}".format(num_data[12]-stat_ABD))
+            self.ACD_corrected_display.setText("{:.2E}".format(num_data[13]-stat_ACD))
+            self.ABCD_corrected_display.setText("{:.2E}".format(num_data[14]-stat_ABCD))
+            
         # Check if data recording is active and store the data from this tick if so
         if self.record_active:
 
             self.saved_data.put(time, num_data)
-            
 
     def on_stop(self):
         """ stop and clear the serial thread """

@@ -83,10 +83,10 @@ class SerialThread(threading.Thread):
                 
                 #record timestamp
                 time_stamp = datetime.datetime.now().time()
-                time_string = timestamp.isoformat()
+                time_string = time_stamp.isoformat()
                 
                 # initialize int to store data
-                data_int = np.zeros(15)
+                data_int = np.zeros(75)
                 
                 for i in range(15):
                     for j in range(5):

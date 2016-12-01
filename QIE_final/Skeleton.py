@@ -157,7 +157,7 @@ class GuiSkeleton(QtGui.QWidget):
         # of one of them needs to be specified; everything else will follow
         self.AB_raw_display = QtGui.QLineEdit()
         self.AB_raw_display.setReadOnly(True)
-        self.AB_raw_display.setFixedWidth(60);
+        self.AB_raw_display.setFixedWidth(70);
         self.AB_stat_display = QtGui.QLineEdit()
         self.AB_stat_display.setReadOnly(True)
         self.AB_corrected_display = QtGui.QLineEdit()
@@ -166,7 +166,7 @@ class GuiSkeleton(QtGui.QWidget):
         
         self.AC_raw_display = QtGui.QLineEdit()
         self.AC_raw_display.setReadOnly(True)
-        self.AC_raw_display.setFixedWidth(60);
+        self.AC_raw_display.setFixedWidth(70);
         self.AC_stat_display = QtGui.QLineEdit()
         self.AC_stat_display.setReadOnly(True)
         self.AC_corrected_display = QtGui.QLineEdit()
@@ -174,7 +174,7 @@ class GuiSkeleton(QtGui.QWidget):
         
         self.AD_raw_display = QtGui.QLineEdit()
         self.AD_raw_display.setReadOnly(True)
-        self.AD_raw_display.setFixedWidth(60);
+        self.AD_raw_display.setFixedWidth(70);
         self.AD_stat_display = QtGui.QLineEdit()
         self.AD_stat_display.setReadOnly(True)
         self.AD_corrected_display = QtGui.QLineEdit()
@@ -182,7 +182,7 @@ class GuiSkeleton(QtGui.QWidget):
         
         self.BC_raw_display = QtGui.QLineEdit()
         self.BC_raw_display.setReadOnly(True)
-        self.BC_raw_display.setFixedWidth(60);
+        self.BC_raw_display.setFixedWidth(70);
         self.BC_stat_display = QtGui.QLineEdit()
         self.BC_stat_display.setReadOnly(True)
         self.BC_corrected_display = QtGui.QLineEdit()
@@ -190,7 +190,7 @@ class GuiSkeleton(QtGui.QWidget):
         
         self.BD_raw_display = QtGui.QLineEdit()
         self.BD_raw_display.setReadOnly(True)
-        self.BD_raw_display.setFixedWidth(60);
+        self.BD_raw_display.setFixedWidth(70);
         self.BD_stat_display = QtGui.QLineEdit()
         self.BD_stat_display.setReadOnly(True)
         self.BD_corrected_display = QtGui.QLineEdit()
@@ -198,7 +198,7 @@ class GuiSkeleton(QtGui.QWidget):
         
         self.CD_raw_display = QtGui.QLineEdit()
         self.CD_raw_display.setReadOnly(True)
-        self.CD_raw_display.setFixedWidth(60);
+        self.CD_raw_display.setFixedWidth(70);
         self.CD_stat_display = QtGui.QLineEdit()
         self.CD_stat_display.setReadOnly(True)
         self.CD_corrected_display = QtGui.QLineEdit()
@@ -206,7 +206,7 @@ class GuiSkeleton(QtGui.QWidget):
         
         self.ABC_raw_display = QtGui.QLineEdit()
         self.ABC_raw_display.setReadOnly(True)
-        self.ABC_raw_display.setFixedWidth(60);
+        self.ABC_raw_display.setFixedWidth(70);
         self.ABC_stat_display = QtGui.QLineEdit()
         self.ABC_stat_display.setReadOnly(True)
         self.ABC_corrected_display = QtGui.QLineEdit()
@@ -214,7 +214,7 @@ class GuiSkeleton(QtGui.QWidget):
         
         self.BCD_raw_display = QtGui.QLineEdit()
         self.BCD_raw_display.setReadOnly(True)
-        self.BCD_raw_display.setFixedWidth(60);
+        self.BCD_raw_display.setFixedWidth(70);
         self.BCD_stat_display = QtGui.QLineEdit()
         self.BCD_stat_display.setReadOnly(True)
         self.BCD_corrected_display = QtGui.QLineEdit()
@@ -222,7 +222,7 @@ class GuiSkeleton(QtGui.QWidget):
         
         self.ACD_raw_display = QtGui.QLineEdit()
         self.ACD_raw_display.setReadOnly(True)
-        self.ACD_raw_display.setFixedWidth(60);
+        self.ACD_raw_display.setFixedWidth(70);
         self.ACD_stat_display = QtGui.QLineEdit()
         self.ACD_stat_display.setReadOnly(True)
         self.ACD_corrected_display = QtGui.QLineEdit()
@@ -230,7 +230,7 @@ class GuiSkeleton(QtGui.QWidget):
         
         self.ABD_raw_display = QtGui.QLineEdit()
         self.ABD_raw_display.setReadOnly(True)
-        self.ABD_raw_display.setFixedWidth(60);
+        self.ABD_raw_display.setFixedWidth(70);
         self.ABD_stat_display = QtGui.QLineEdit()
         self.ABD_stat_display.setReadOnly(True)
         self.ABD_corrected_display = QtGui.QLineEdit()
@@ -238,7 +238,7 @@ class GuiSkeleton(QtGui.QWidget):
         
         self.ABCD_raw_display = QtGui.QLineEdit()
         self.ABCD_raw_display.setReadOnly(True)
-        self.ABCD_raw_display.setFixedWidth(60);
+        self.ABCD_raw_display.setFixedWidth(70);
         self.ABCD_stat_display = QtGui.QLineEdit()
         self.ABCD_stat_display.setReadOnly(True)
         self.ABCD_corrected_display = QtGui.QLineEdit()
@@ -337,7 +337,7 @@ class GuiSkeleton(QtGui.QWidget):
     
         self.record_spin = QtGui.QSpinBox(self)
         self.record_spin.setFixedWidth(100)
-        self.record_spin_label = QtGui.QLabel('Record and save data for (s):')
+        self.record_spin_label = QtGui.QLabel('Record data for (s):')
         
         # Create a QGridLayout for easy layouting inside the GroupBox
         self.settings_grid = QtGui.QGridLayout()
@@ -354,8 +354,8 @@ class GuiSkeleton(QtGui.QWidget):
         self.settings_grid.addWidget(self.coincidence_spin, 3,1, QtCore.Qt.AlignCenter)
         self.settings_grid.addItem(spacer2, 4, 0)
         self.settings_grid.addWidget(self.record_spin_label, 5,0, QtCore.Qt.AlignCenter)
-        self.settings_grid.addWidget(self.record_spin, 5,1, QtCore.Qt.AlignCenter)
-        self.settings_grid.addWidget(self.record_button, 6,0, QtCore.Qt.AlignCenter)
+        self.settings_grid.addWidget(self.record_spin, 6,0, QtCore.Qt.AlignCenter)
+        self.settings_grid.addWidget(self.record_button, 6,1, QtCore.Qt.AlignCenter)
         self.settings_grid.addItem(spacer2, 7, 0)
         self.settings_grid.addWidget(self.quit_button, 8,0, QtCore.Qt.AlignCenter)
         
