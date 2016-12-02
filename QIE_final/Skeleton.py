@@ -2,12 +2,6 @@
 
 from PyQt4 import QtGui, QtCore
 
-import sys
-import serial_data
-import queue
-import numpy as np
-from utils import get_item_from_queue
-
 
 class GuiSkeleton(QtGui.QWidget):
     """ Class that creates all the GUI parts (buttons, displays, labels...)

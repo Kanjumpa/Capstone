@@ -83,17 +83,16 @@ class SerialThread(threading.Thread):
                 data_out = self.serial_port.read(75)
                 
                 #record timestamp
-                time_string = datetime.datetime.now().strftime("%H%M%S")
+                time_string = datetime.datetime.now().strftime("%H:%M:%S.%f")
                 
                 # initialize int to store data
-                data_int = np.zeros(75)
+                data_int = np.zeros(15)
                 
                 for i in range(15):
                     for j in range(5):
                         data_int[i] += data_out[i*5+j]*128**j
                 self.data_q.put((time_string, data_int))
         
-        print("Thread:run ended") 
         # clean up
         if self.serial_port:
             self.serial_port.close()
