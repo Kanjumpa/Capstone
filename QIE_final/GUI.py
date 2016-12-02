@@ -274,8 +274,8 @@ class QIE_Gui(GuiSkeleton):
             self.csv_writer = csv.writer(self.output_file)
             self.csv_writer.writerow(fieldnames)
 
-            # Restart data collection thread to "synchronize" timers
-            if self.serial_monitor is None:
+            # check if data collection is on:
+            if self.serial_monitor==None or self.serial_monitor.pause:
                 self.on_start()
             
     def on_record_timer(self):
