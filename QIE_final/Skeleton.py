@@ -321,6 +321,7 @@ class GuiSkeleton(QtGui.QWidget):
         self.update_spin.setFixedWidth(100)
         self.update_spin.setSingleStep(0.1)
         self.update_spin.setRange(0.1,10.0)
+        self.update_spin.setValue(1.0)
         self.update_spin.setDecimals(1)
         self.update_spin_label = QtGui.QLabel('Update Period (s)')
         

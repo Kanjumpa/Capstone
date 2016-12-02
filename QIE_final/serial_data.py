@@ -48,6 +48,7 @@ class SerialThread(threading.Thread):
         
         self.data_q = data_q
         self.error_q = error_q
+        self.pause = False
         
         # threading.Event() is a flag which can be set to True by set(),
         # to false by clear(). Indicates if the thread should keep running
@@ -68,9 +69,12 @@ class SerialThread(threading.Thread):
             self.serial_port.baudrate = 19200
         except serial.SerialException as e:
             self.error_q.put(e)
+            print("serial error")
             return
         
         while self.alive.isSet():
+            if self.pause:
+                continue
             # look for a high byte which signals start of data stream
             start_byte = self.serial_port.read(1)
             start_int = int(start_byte.hex(), 16)

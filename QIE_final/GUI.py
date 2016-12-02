@@ -9,6 +9,7 @@ import numpy as np
 import datetime
 import csv
 import argparse
+import time
 
 from Skeleton import GuiSkeleton
 
@@ -44,41 +45,41 @@ class QIE_Gui(GuiSkeleton):
     def on_start(self):
         """ Start the data collection serial thread and update timer """
         
-        # If there is already a serial thread running (start has been hit,
-        # and not stopped yet) or portname not specified, return.
-        if self.serial_monitor is not None or self.portname == '':
-            return
+        #time.sleep(0.3)
+        if self.serial_monitor == None:
+            # Create Queue to store data and error messages from serial port
+            self.data_q = queue.Queue()
+            self.error_q = queue.Queue()
         
-        # Create Queue to store data and error messages from serial port
-        self.data_q = queue.Queue()
-        self.error_q = queue.Queue()
+            # Create serial monitor thread
+            self.serial_monitor = serial_data.SerialThread(
+                    self.data_q,
+                    self.error_q,
+                    self.portname)
         
-        # Create serial monitor thread
-        self.serial_monitor = serial_data.SerialThread(
-                self.data_q,
-                self.error_q,
-                self.portname)
+            # Start serial monitor thread (data collection will start running
+            # in parallel to GUI monitor)
+            self.serial_monitor.start()
         
-        # Start serial monitor thread (data collection will start running
-        # in parallel to GUI monitor)
-        self.serial_monitor.start()
-        
-        # See if any error occured when opening the serial port
-        serial_error = self.get_item_from_queue(self.error_q)
-        if serial_error is not None:
-            QtGui.QMessageBox.critical(self, 'SerialThread error', 
-                    'Error when connecting to DE2; \nPlease turn on DE2 before collecting data.')
-            self.serial_monitor = None
-            return
+            # See if any error occured when opening the serial port
+            serial_error = self.get_item_from_queue(self.error_q)
+            if serial_error != None:
+                if serial_error == "serial error":
+                    QtGui.QMessageBox.critical(self, 'SerialThread error', 
+                           'Error when connecting to DE2; \nPlease turn on DE2 before collecting data.')
+                self.serial_monitor = None
+                return
+        else:
+            self.serial_monitor.pause = False
         
         # Get coincidence time window
         self.time_window = self.coincidence_spin.value()
         # Get update period from spinbox (default = 0.1)
         self.update_period = self.update_spin.value()
-        # Set timer to update period (in milliseconds)
-        self.timer.start(self.update_period*1000.0)
         # Connect timer trigger to on_timer method
         self.connect(self.timer, QtCore.SIGNAL('timeout()'), self.on_update_timer)
+        # Set timer to update period (in milliseconds)
+        self.timer.start(self.update_period*1000.0)
 
     
     def on_update_timer(self):
@@ -95,12 +96,14 @@ class QIE_Gui(GuiSkeleton):
         # where num_data is a size(15) array containing all photon counts
         qdata = None
         while qdata is None:
+            #print('in loop')
             qdata = self.get_item_from_queue(self.data_q)
         time = qdata[0]
         num_data = qdata[1]
         for i in range(update_num-1):
             qdata = self.get_item_from_queue(self.data_q)
             while qdata is None:
+                #print('in second loop')
                 qdata = self.get_item_from_queue(self.data_q)
             num_data += qdata[1]
         
@@ -196,15 +199,12 @@ class QIE_Gui(GuiSkeleton):
         if self.record_active:
             self.on_record()
             
-        if self.serial_monitor is not None:
-            self.serial_monitor.alive.clear()
-            # join will wait until the thread terminates,
-            # or the specified timeout = 0.01
-            self.serial_monitor.join(0.01)
-            self.serial_monitor = None
         # stop and disconnect the timer that triggers data retrieval
         self.disconnect(self.timer, QtCore.SIGNAL('timeout()'), self.on_update_timer)
         self.timer.stop()
+        
+        self.serial_monitor.pause = True
+        
         
     def on_quit(self):
         """ stop and clear the serial thread if not yet done,
@@ -212,7 +212,11 @@ class QIE_Gui(GuiSkeleton):
         """
 
         if self.serial_monitor is not None:
-            self.on_stop()
+            self.serial_monitor.alive.clear()
+            # join will wait until the thread terminates,
+            # or the specified timeout = 0.01
+            self.serial_monitor.join(0.001)
+            self.serial_monitor = None
         
         self.close()
 
