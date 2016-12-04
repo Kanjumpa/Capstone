@@ -48,21 +48,19 @@ class GuiSkeleton(QtGui.QWidget):
         # spanning one cell [1,1]
         self.total_grid.addWidget(self.single_photon_box, 0, 1)
         # Put empty space for asthetic purposes
-        spacer1 = QtGui.QSpacerItem(400,1)
+        spacer1 = QtGui.QSpacerItem(600,1)
         self.total_grid.addItem(spacer1, 0, 2)
-        spacer2 = QtGui.QSpacerItem(10, 1)
-        self.total_grid.addItem(spacer2, 1, 1)
         # Put the Coincidence Count group
-        self.total_grid.addWidget(self.coincidence_photon_box, 2, 1, 1, 2)
+        self.total_grid.addWidget(self.coincidence_photon_box, 2, 1, 1, 3)
         # Set the created layout
         self.setLayout(self.total_grid)
         # Set the size of the main window
-        self.setGeometry(300,300,600,20)
+        #self.setGeometry(0,300,600,20)
         # Set the title of the main window
         self.setWindowTitle('Quantum Interference and Entanglement GUI')
         
         # Center the main window in the screen using custum method
-        self.center()
+        #self.center()
         
     def create_single_photon_box(self):
         """ create the QGroupBox containing displays and labels for
@@ -147,36 +145,40 @@ class GuiSkeleton(QtGui.QWidget):
         self.corrected_label = QtGui.QLabel('Corrected Coincidence')
         
         # Create text displays, set to read only, set width
-        # Note: the diplay will be arranged into a column, and the width
-        # of one of them needs to be specified; everything else will follow
         self.AB_raw_display = QtGui.QLineEdit()
         self.AB_raw_display.setReadOnly(True)
-        self.AB_raw_display.setFixedWidth(70);
+        #self.AB_raw_display.setFixedWidth(70)
         self.AB_stat_display = QtGui.QLineEdit()
         self.AB_stat_display.setReadOnly(True)
+        #self.AB_stat_display.setFixedWidth(70)
         self.AB_corrected_display = QtGui.QLineEdit()
         self.AB_corrected_display.setReadOnly(True)
+        #self.AB_corrected_display.setFixedWidth(70)
 
         
         self.AC_raw_display = QtGui.QLineEdit()
         self.AC_raw_display.setReadOnly(True)
-        self.AC_raw_display.setFixedWidth(70);
+        #self.AC_raw_display.setFixedWidth(70)
         self.AC_stat_display = QtGui.QLineEdit()
         self.AC_stat_display.setReadOnly(True)
+        #self.AC_stat_display.setFixedWidth(70)
         self.AC_corrected_display = QtGui.QLineEdit()
         self.AC_corrected_display.setReadOnly(True)
+        #self.AC_corrected_display.setFixedWidth(70)
         
         self.AD_raw_display = QtGui.QLineEdit()
         self.AD_raw_display.setReadOnly(True)
-        self.AD_raw_display.setFixedWidth(70);
+        #self.AD_raw_display.setFixedWidth(70)
         self.AD_stat_display = QtGui.QLineEdit()
         self.AD_stat_display.setReadOnly(True)
+        #self.AD_raw_display.setFixedWidth(70)
         self.AD_corrected_display = QtGui.QLineEdit()
         self.AD_corrected_display.setReadOnly(True)
+        #self.AD_raw_display.setFixedWidth(70)
         
         self.BC_raw_display = QtGui.QLineEdit()
         self.BC_raw_display.setReadOnly(True)
-        self.BC_raw_display.setFixedWidth(70);
+        #self.BC_raw_display.setFixedWidth(70);
         self.BC_stat_display = QtGui.QLineEdit()
         self.BC_stat_display.setReadOnly(True)
         self.BC_corrected_display = QtGui.QLineEdit()
@@ -184,7 +186,7 @@ class GuiSkeleton(QtGui.QWidget):
         
         self.BD_raw_display = QtGui.QLineEdit()
         self.BD_raw_display.setReadOnly(True)
-        self.BD_raw_display.setFixedWidth(70);
+        #self.BD_raw_display.setFixedWidth(70);
         self.BD_stat_display = QtGui.QLineEdit()
         self.BD_stat_display.setReadOnly(True)
         self.BD_corrected_display = QtGui.QLineEdit()
@@ -192,7 +194,7 @@ class GuiSkeleton(QtGui.QWidget):
         
         self.CD_raw_display = QtGui.QLineEdit()
         self.CD_raw_display.setReadOnly(True)
-        self.CD_raw_display.setFixedWidth(70);
+        #self.CD_raw_display.setFixedWidth(70);
         self.CD_stat_display = QtGui.QLineEdit()
         self.CD_stat_display.setReadOnly(True)
         self.CD_corrected_display = QtGui.QLineEdit()
@@ -200,7 +202,7 @@ class GuiSkeleton(QtGui.QWidget):
         
         self.ABC_raw_display = QtGui.QLineEdit()
         self.ABC_raw_display.setReadOnly(True)
-        self.ABC_raw_display.setFixedWidth(70);
+        #self.ABC_raw_display.setFixedWidth(70);
         self.ABC_stat_display = QtGui.QLineEdit()
         self.ABC_stat_display.setReadOnly(True)
         self.ABC_corrected_display = QtGui.QLineEdit()
@@ -208,7 +210,7 @@ class GuiSkeleton(QtGui.QWidget):
         
         self.BCD_raw_display = QtGui.QLineEdit()
         self.BCD_raw_display.setReadOnly(True)
-        self.BCD_raw_display.setFixedWidth(70);
+        #self.BCD_raw_display.setFixedWidth(70);
         self.BCD_stat_display = QtGui.QLineEdit()
         self.BCD_stat_display.setReadOnly(True)
         self.BCD_corrected_display = QtGui.QLineEdit()
@@ -216,7 +218,7 @@ class GuiSkeleton(QtGui.QWidget):
         
         self.ACD_raw_display = QtGui.QLineEdit()
         self.ACD_raw_display.setReadOnly(True)
-        self.ACD_raw_display.setFixedWidth(70);
+        #self.ACD_raw_display.setFixedWidth(70);
         self.ACD_stat_display = QtGui.QLineEdit()
         self.ACD_stat_display.setReadOnly(True)
         self.ACD_corrected_display = QtGui.QLineEdit()
@@ -224,7 +226,7 @@ class GuiSkeleton(QtGui.QWidget):
         
         self.ABD_raw_display = QtGui.QLineEdit()
         self.ABD_raw_display.setReadOnly(True)
-        self.ABD_raw_display.setFixedWidth(70);
+        #self.ABD_raw_display.setFixedWidth(70);
         self.ABD_stat_display = QtGui.QLineEdit()
         self.ABD_stat_display.setReadOnly(True)
         self.ABD_corrected_display = QtGui.QLineEdit()
@@ -232,7 +234,7 @@ class GuiSkeleton(QtGui.QWidget):
         
         self.ABCD_raw_display = QtGui.QLineEdit()
         self.ABCD_raw_display.setReadOnly(True)
-        self.ABCD_raw_display.setFixedWidth(70);
+        #self.ABCD_raw_display.setFixedWidth(70);
         self.ABCD_stat_display = QtGui.QLineEdit()
         self.ABCD_stat_display.setReadOnly(True)
         self.ABCD_corrected_display = QtGui.QLineEdit()

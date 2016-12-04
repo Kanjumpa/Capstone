@@ -202,8 +202,8 @@ class QIE_Gui(GuiSkeleton):
         # stop and disconnect the timer that triggers data retrieval
         self.disconnect(self.timer, QtCore.SIGNAL('timeout()'), self.on_update_timer)
         self.timer.stop()
-        
-        self.serial_monitor.pause = True
+        if self.serial_monitor != None:
+            self.serial_monitor.pause = True
         
         
     def on_quit(self):
