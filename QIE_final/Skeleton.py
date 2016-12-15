@@ -48,14 +48,14 @@ class GuiSkeleton(QtGui.QWidget):
         # spanning one cell [1,1]
         self.total_grid.addWidget(self.single_photon_box, 0, 1)
         # Put empty space for asthetic purposes
-        spacer1 = QtGui.QSpacerItem(600,1)
-        self.total_grid.addItem(spacer1, 0, 2)
+        #spacer1 = QtGui.QSpacerItem(300,1)
+        #self.total_grid.addItem(spacer1, 0, 2)
         # Put the Coincidence Count group
-        self.total_grid.addWidget(self.coincidence_photon_box, 2, 1, 1, 3)
+        self.total_grid.addWidget(self.coincidence_photon_box, 2, 1, 1, 2)
         # Set the created layout
         self.setLayout(self.total_grid)
         # Set the size of the main window
-        #self.setGeometry(0,300,600,20)
+        self.setGeometry(100,300,600,20)
         # Set the title of the main window
         self.setWindowTitle('Quantum Interference and Entanglement GUI')
         
@@ -84,19 +84,19 @@ class GuiSkeleton(QtGui.QWidget):
         # Create text displays and set to read only
         self.A_display = QtGui.QLineEdit()
         self.A_display.setReadOnly(True)
-        self.A_display.setFixedWidth(80)
+        #self.A_display.setFixedWidth(80)
         
         self.B_display = QtGui.QLineEdit()
         self.B_display.setReadOnly(True)
-        self.B_display.setFixedWidth(80)
+        #self.B_display.setFixedWidth(80)
         
         self.C_display = QtGui.QLineEdit()
         self.C_display.setReadOnly(True)
-        self.C_display.setFixedWidth(80)
+        #self.C_display.setFixedWidth(80)
         
         self.D_display = QtGui.QLineEdit()
         self.D_display.setReadOnly(True)
-        self.D_display.setFixedWidth(80)
+        #self.D_display.setFixedWidth(80)
         
         # Arrange the labels and displays in the GridLayout
         self.single_photon_grid.addWidget(self.A_display, 1, 0)
@@ -147,98 +147,114 @@ class GuiSkeleton(QtGui.QWidget):
         # Create text displays, set to read only, set width
         self.AB_raw_display = QtGui.QLineEdit()
         self.AB_raw_display.setReadOnly(True)
-        #self.AB_raw_display.setFixedWidth(70)
+        self.AB_raw_display.setMinimumWidth(70)
         self.AB_stat_display = QtGui.QLineEdit()
         self.AB_stat_display.setReadOnly(True)
-        #self.AB_stat_display.setFixedWidth(70)
+        self.AB_stat_display.setMinimumWidth(70)
         self.AB_corrected_display = QtGui.QLineEdit()
         self.AB_corrected_display.setReadOnly(True)
-        #self.AB_corrected_display.setFixedWidth(70)
+        self.AB_corrected_display.setMinimumWidth(70)
 
         
         self.AC_raw_display = QtGui.QLineEdit()
         self.AC_raw_display.setReadOnly(True)
-        #self.AC_raw_display.setFixedWidth(70)
+        self.AC_raw_display.setMinimumWidth(70)
         self.AC_stat_display = QtGui.QLineEdit()
         self.AC_stat_display.setReadOnly(True)
-        #self.AC_stat_display.setFixedWidth(70)
+        self.AC_stat_display.setMinimumWidth(70)
         self.AC_corrected_display = QtGui.QLineEdit()
         self.AC_corrected_display.setReadOnly(True)
-        #self.AC_corrected_display.setFixedWidth(70)
+        self.AC_corrected_display.setMinimumWidth(70)
         
         self.AD_raw_display = QtGui.QLineEdit()
         self.AD_raw_display.setReadOnly(True)
-        #self.AD_raw_display.setFixedWidth(70)
+        self.AD_raw_display.setMinimumWidth(70)
         self.AD_stat_display = QtGui.QLineEdit()
         self.AD_stat_display.setReadOnly(True)
-        #self.AD_raw_display.setFixedWidth(70)
+        self.AD_raw_display.setMinimumWidth(70)
         self.AD_corrected_display = QtGui.QLineEdit()
         self.AD_corrected_display.setReadOnly(True)
-        #self.AD_raw_display.setFixedWidth(70)
+        self.AD_raw_display.setMinimumWidth(70)
         
         self.BC_raw_display = QtGui.QLineEdit()
         self.BC_raw_display.setReadOnly(True)
-        #self.BC_raw_display.setFixedWidth(70);
+        self.BC_raw_display.setMinimumWidth(70)
         self.BC_stat_display = QtGui.QLineEdit()
         self.BC_stat_display.setReadOnly(True)
+        self.BC_stat_display.setMinimumWidth(70);
         self.BC_corrected_display = QtGui.QLineEdit()
         self.BC_corrected_display.setReadOnly(True)
+        self.BC_corrected_display.setMinimumWidth(70)
         
         self.BD_raw_display = QtGui.QLineEdit()
         self.BD_raw_display.setReadOnly(True)
-        #self.BD_raw_display.setFixedWidth(70);
+        self.BD_raw_display.setMinimumWidth(70)
         self.BD_stat_display = QtGui.QLineEdit()
         self.BD_stat_display.setReadOnly(True)
+        self.BD_stat_display.setMinimumWidth(70)
         self.BD_corrected_display = QtGui.QLineEdit()
         self.BD_corrected_display.setReadOnly(True)
+        self.BD_corrected_display.setMinimumWidth(70)
         
         self.CD_raw_display = QtGui.QLineEdit()
         self.CD_raw_display.setReadOnly(True)
-        #self.CD_raw_display.setFixedWidth(70);
+        self.CD_raw_display.setMinimumWidth(70)
         self.CD_stat_display = QtGui.QLineEdit()
         self.CD_stat_display.setReadOnly(True)
+        self.CD_stat_display.setMinimumWidth(70)
         self.CD_corrected_display = QtGui.QLineEdit()
         self.CD_corrected_display.setReadOnly(True)
+        self.CD_corrected_display.setMinimumWidth(70)
         
         self.ABC_raw_display = QtGui.QLineEdit()
         self.ABC_raw_display.setReadOnly(True)
-        #self.ABC_raw_display.setFixedWidth(70);
+        self.ABC_raw_display.setMinimumWidth(70)
         self.ABC_stat_display = QtGui.QLineEdit()
         self.ABC_stat_display.setReadOnly(True)
+        self.ABC_stat_display.setMinimumWidth(70)
         self.ABC_corrected_display = QtGui.QLineEdit()
         self.ABC_corrected_display.setReadOnly(True)
+        self.ABC_corrected_display.setMinimumWidth(70)
         
         self.BCD_raw_display = QtGui.QLineEdit()
         self.BCD_raw_display.setReadOnly(True)
-        #self.BCD_raw_display.setFixedWidth(70);
+        self.BCD_raw_display.setMinimumWidth(70)
         self.BCD_stat_display = QtGui.QLineEdit()
         self.BCD_stat_display.setReadOnly(True)
+        self.BCD_stat_display.setMinimumWidth(70)
         self.BCD_corrected_display = QtGui.QLineEdit()
         self.BCD_corrected_display.setReadOnly(True)
+        self.BCD_corrected_display.setMinimumWidth(70)
         
         self.ACD_raw_display = QtGui.QLineEdit()
         self.ACD_raw_display.setReadOnly(True)
-        #self.ACD_raw_display.setFixedWidth(70);
+        self.ACD_raw_display.setMinimumWidth(70)
         self.ACD_stat_display = QtGui.QLineEdit()
         self.ACD_stat_display.setReadOnly(True)
+        self.ACD_stat_display.setMinimumWidth(70)
         self.ACD_corrected_display = QtGui.QLineEdit()
         self.ACD_corrected_display.setReadOnly(True)
+        self.ACD_corrected_display.setMinimumWidth(70)
         
         self.ABD_raw_display = QtGui.QLineEdit()
         self.ABD_raw_display.setReadOnly(True)
-        #self.ABD_raw_display.setFixedWidth(70);
+        self.ABD_raw_display.setMinimumWidth(70)
         self.ABD_stat_display = QtGui.QLineEdit()
         self.ABD_stat_display.setReadOnly(True)
+        self.ABD_stat_display.setMinimumWidth(70)
         self.ABD_corrected_display = QtGui.QLineEdit()
         self.ABD_corrected_display.setReadOnly(True)
+        self.ABD_corrected_display.setMinimumWidth(70)
         
         self.ABCD_raw_display = QtGui.QLineEdit()
         self.ABCD_raw_display.setReadOnly(True)
-        #self.ABCD_raw_display.setFixedWidth(70);
+        self.ABCD_raw_display.setMinimumWidth(70)
         self.ABCD_stat_display = QtGui.QLineEdit()
         self.ABCD_stat_display.setReadOnly(True)
+        self.ABCD_stat_display.setMinimumWidth(70)
         self.ABCD_corrected_display = QtGui.QLineEdit()
         self.ABCD_corrected_display.setReadOnly(True)
+        self.ABCD_corrected_display.setMinimumWidth(70)
         
         # Arrange the labels and displays in the GridLayout
         self.coincidence_photon_grid.addWidget(self.AB_label, 0, 1, QtCore.Qt.AlignCenter)
@@ -247,11 +263,11 @@ class GuiSkeleton(QtGui.QWidget):
         self.coincidence_photon_grid.addWidget(self.BC_label, 0, 4, QtCore.Qt.AlignCenter)
         self.coincidence_photon_grid.addWidget(self.BD_label, 0, 5, QtCore.Qt.AlignCenter)
         self.coincidence_photon_grid.addWidget(self.CD_label, 0, 6, QtCore.Qt.AlignCenter)
-        self.coincidence_photon_grid.addWidget(self.ABC_label, 0, 7, QtCore.Qt.AlignCenter)
-        self.coincidence_photon_grid.addWidget(self.BCD_label, 0, 8, QtCore.Qt.AlignCenter)
-        self.coincidence_photon_grid.addWidget(self.ACD_label, 0, 9, QtCore.Qt.AlignCenter)
-        self.coincidence_photon_grid.addWidget(self.ABD_label, 0, 10, QtCore.Qt.AlignCenter)
-        self.coincidence_photon_grid.addWidget(self.ABCD_label, 0, 11, QtCore.Qt.AlignCenter)
+        self.coincidence_photon_grid.addWidget(self.ABC_label, 4, 1, QtCore.Qt.AlignCenter)
+        self.coincidence_photon_grid.addWidget(self.BCD_label, 4, 2, QtCore.Qt.AlignCenter)
+        self.coincidence_photon_grid.addWidget(self.ACD_label, 4, 3, QtCore.Qt.AlignCenter)
+        self.coincidence_photon_grid.addWidget(self.ABD_label, 4, 4, QtCore.Qt.AlignCenter)
+        self.coincidence_photon_grid.addWidget(self.ABCD_label, 4, 5, QtCore.Qt.AlignCenter)
         
         self.coincidence_photon_grid.addWidget(self.corrected_label, 1,0)        
         self.coincidence_photon_grid.addWidget(self.AB_corrected_display, 1, 1)
@@ -260,11 +276,11 @@ class GuiSkeleton(QtGui.QWidget):
         self.coincidence_photon_grid.addWidget(self.BC_corrected_display, 1, 4)
         self.coincidence_photon_grid.addWidget(self.BD_corrected_display, 1, 5)
         self.coincidence_photon_grid.addWidget(self.CD_corrected_display, 1, 6)
-        self.coincidence_photon_grid.addWidget(self.ABC_corrected_display, 1, 7)
-        self.coincidence_photon_grid.addWidget(self.BCD_corrected_display, 1, 8)
-        self.coincidence_photon_grid.addWidget(self.ACD_corrected_display, 1, 9)
-        self.coincidence_photon_grid.addWidget(self.ABD_corrected_display, 1, 10)
-        self.coincidence_photon_grid.addWidget(self.ABCD_corrected_display, 1, 11)
+        self.coincidence_photon_grid.addWidget(self.ABC_corrected_display, 5, 1)
+        self.coincidence_photon_grid.addWidget(self.BCD_corrected_display, 5, 2)
+        self.coincidence_photon_grid.addWidget(self.ACD_corrected_display, 5, 3)
+        self.coincidence_photon_grid.addWidget(self.ABD_corrected_display, 5, 4)
+        self.coincidence_photon_grid.addWidget(self.ABCD_corrected_display, 5, 5)
         
         self.coincidence_photon_grid.addWidget(self.stat_label, 2,0)
         self.coincidence_photon_grid.addWidget(self.AB_stat_display, 2, 1)
@@ -273,11 +289,11 @@ class GuiSkeleton(QtGui.QWidget):
         self.coincidence_photon_grid.addWidget(self.BC_stat_display, 2, 4)
         self.coincidence_photon_grid.addWidget(self.BD_stat_display, 2, 5)
         self.coincidence_photon_grid.addWidget(self.CD_stat_display, 2, 6)
-        self.coincidence_photon_grid.addWidget(self.ABC_stat_display, 2, 7)
-        self.coincidence_photon_grid.addWidget(self.BCD_stat_display, 2, 8)
-        self.coincidence_photon_grid.addWidget(self.ACD_stat_display, 2, 9)
-        self.coincidence_photon_grid.addWidget(self.ABD_stat_display, 2, 10)
-        self.coincidence_photon_grid.addWidget(self.ABCD_stat_display, 2, 11)
+        self.coincidence_photon_grid.addWidget(self.ABC_stat_display, 6, 1)
+        self.coincidence_photon_grid.addWidget(self.BCD_stat_display, 6, 2)
+        self.coincidence_photon_grid.addWidget(self.ACD_stat_display, 6, 3)
+        self.coincidence_photon_grid.addWidget(self.ABD_stat_display, 6, 4)
+        self.coincidence_photon_grid.addWidget(self.ABCD_stat_display, 6, 5)
         
         self.coincidence_photon_grid.addWidget(self.raw_label, 3,0)
         self.coincidence_photon_grid.addWidget(self.AB_raw_display, 3, 1)
@@ -286,11 +302,11 @@ class GuiSkeleton(QtGui.QWidget):
         self.coincidence_photon_grid.addWidget(self.BC_raw_display, 3, 4)
         self.coincidence_photon_grid.addWidget(self.BD_raw_display, 3, 5)
         self.coincidence_photon_grid.addWidget(self.CD_raw_display, 3, 6)
-        self.coincidence_photon_grid.addWidget(self.ABC_raw_display, 3, 7)
-        self.coincidence_photon_grid.addWidget(self.BCD_raw_display, 3, 8)
-        self.coincidence_photon_grid.addWidget(self.ACD_raw_display, 3, 9)
-        self.coincidence_photon_grid.addWidget(self.ABD_raw_display, 3, 10)
-        self.coincidence_photon_grid.addWidget(self.ABCD_raw_display, 3, 11)
+        self.coincidence_photon_grid.addWidget(self.ABC_raw_display, 7, 1)
+        self.coincidence_photon_grid.addWidget(self.BCD_raw_display, 7, 2)
+        self.coincidence_photon_grid.addWidget(self.ACD_raw_display, 7, 3)
+        self.coincidence_photon_grid.addWidget(self.ABD_raw_display, 7, 4)
+        self.coincidence_photon_grid.addWidget(self.ABCD_raw_display, 7, 5)
         
         # Apply the grid layout into the GroupBox
         self.coincidence_photon_box.setLayout(self.coincidence_photon_grid)

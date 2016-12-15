@@ -45,8 +45,8 @@ class QIE_Gui(GuiSkeleton):
     def on_start(self):
         """ Start the data collection serial thread and update timer """
         
-        #time.sleep(0.3)
         if self.serial_monitor == None:
+            print("creating new serial monitor")
             # Create Queue to store data and error messages from serial port
             self.data_q = queue.Queue()
             self.error_q = queue.Queue()
@@ -283,6 +283,9 @@ class QIE_Gui(GuiSkeleton):
 
         # Deactivate the recording flag
         self.record_active = False
+        # Flush and close the csv file
+        self.output_file.flush()
+        self.output_file.close()
         # Change the button text to indicate that recording has finished
         self.record_button.setChecked(False)
         self.record_button.setText('Start Recording')
@@ -313,8 +316,7 @@ def main():
     parser.add_argument('--portname')
     app = QtGui.QApplication(sys.argv)
     args = parser.parse_args()
-    print(args)
-    portname = args
+    portname = args.portname
     gui = QIE_Gui(portname)
     gui.show()
     app.exec_()
